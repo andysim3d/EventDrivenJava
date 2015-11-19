@@ -77,13 +77,13 @@ public class Event implements IEvent {
 		this._args= args;
 	}
 	@Override
-	public boolean regist(NonStaticMethods _m) {
+	public boolean regist(IHandler _m) {
 		// TODO Auto-generated method stub
 		return this._listener.add(_m);
 		//return false;
 	}
 	@Override
-	public boolean remove(NonStaticMethods _m) {
+	public boolean remove(IHandler _m) {
 		// TODO Auto-generated method stub
 		return this._listener.remove(_m);
 	}

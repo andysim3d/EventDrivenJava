@@ -5,16 +5,19 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 import com.spcapitaliq.EventArgs.IEventArgs;
+import com.spcapitaliq.EventArgs.MethodFactory;
 import com.spcapitaliq.EventArgs.imp.EventArgs;
 import com.spcapitaliq.Events.EventPool;
 import com.spcapitaliq.Events.IEvent;
 import com.spcapitaliq.Events.imp.Event;
+import com.spcapitaliq.Handler.IHandler;
 import com.spcapitaliq.Handler.imp.NonStaticMethods;
+import com.spcapitaliq.Handler.imp.StaticMethod;
 
 public class testTrigger {
 
 	@Test
-	public void test() throws NoSuchMethodException, SecurityException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void test() throws Throwable {
 		EventPool pool = new EventPool();
 		Event testEvent = new Event("Test");
 		pool.regist(testEvent);
@@ -29,7 +32,9 @@ public class testTrigger {
 			e.printStackTrace();
 		}
 		*/
-		NonStaticMethods testMethod = new NonStaticMethods(this, this.getClass().getMethod("triggerFunc", IEvent.class, IEventArgs.class));
+		IHandler testMethod = new NonStaticMethods(this, MethodFactory.methodfact("triggerFunc", this));
+		IHandler t2 = new StaticMethod(MethodFactory.methodfact("triggerFuc", this));
+		testEvent.regist(t2);
 		testEvent.regist(testMethod);
 		testEvent.trigger();
 	}
@@ -39,8 +44,9 @@ public class testTrigger {
 		return (int)args.getParams()[0] * 10;
 	}
 	
-	public static int triggerFuc(int b){
-		System.out.println(1000);
+	public static int triggerFuc(IEvent e, IEventArgs args){
+		int b = (int)args.getParams()[0];
+		System.out.println(1000 );
 		return b;
 	}
 

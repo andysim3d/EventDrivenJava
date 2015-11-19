@@ -17,6 +17,7 @@ public class StaticMethod implements IHandler {
 	
 	public StaticMethod(Method m){
 		this._m = m;
+		this._actived = true;
 	}
 	
 	@Override
